@@ -1,0 +1,33 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.0'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'github.com.liukaku'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+	implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
+	implementation 'com.amazonaws:aws-lambda-java-events:3.11.1'
+	runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+task buildZip(type: Zip) {
+	into('lib') {
+		from(jar)
+		from(configurations.runtimeClasspath)
+	}
+}
